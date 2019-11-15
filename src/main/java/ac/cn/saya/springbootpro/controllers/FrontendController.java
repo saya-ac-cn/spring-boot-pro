@@ -1,11 +1,7 @@
 package ac.cn.saya.springbootpro.controllers;
 
-import ac.cn.saya.springbootpro.tools.RequestUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Title: FrontendController

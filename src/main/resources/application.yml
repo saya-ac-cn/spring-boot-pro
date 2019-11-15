@@ -1,0 +1,37 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF
+      suffix: .jsp
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://********?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: ******
+    password: ******
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 15
+      minimum-idle: 5
+      pool-name: DatebookHikariCP
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mybatis/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: ac.cn.saya.springbootpro.entity
+  # 添加mybatis配置文件路径
+  config-location: classpath:/mybatis/config/mybatis-config.xml
+  global-config:
+    db-config:
+      # 主键策略
+      id-type: auto
+      # 表名是否使用下划线间隔，默认：是
+      table-underline: true
+  configuration:
+    # 驼峰转下划线
+    map-underscore-to-camel-case: true
