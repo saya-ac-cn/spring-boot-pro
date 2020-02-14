@@ -10,7 +10,4 @@
         <!-- 二级缓存开启 -->
         <setting name="cacheEnabled" value = "true" />
     </settings>
-    <typeAliases>
-        <package name="ac.cn.saya.springbootpro.entity"/>
-    </typeAliases>
 </configuration>
