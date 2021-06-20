@@ -1,7 +1,11 @@
 package ac.cn.saya.springbootpro.controllers;
 
+import ac.cn.saya.springbootpro.entity.UserEntity;
+import ac.cn.saya.springbootpro.validation.ParamsNotNull;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Title: FrontendController
@@ -12,12 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Description:
  * 前端视图控制器
  */
-@Controller
+@RestController
 public class FrontendController {
 
-    @RequestMapping(value = {"/","index","/home"})
+    @GetMapping(value = {"/","index","/home"})
     public String home(){
         return "/home";
+    }
+
+
+    @GetMapping(value = "/register")
+    public String register(@ParamsNotNull(scenes = "insert") UserEntity user){
+        return "----";
     }
 
 
