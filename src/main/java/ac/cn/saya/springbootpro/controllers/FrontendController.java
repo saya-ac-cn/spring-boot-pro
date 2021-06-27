@@ -1,10 +1,8 @@
 package ac.cn.saya.springbootpro.controllers;
 
 import ac.cn.saya.springbootpro.entity.UserEntity;
-import ac.cn.saya.springbootpro.validation.ParamsNotNull;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,7 +24,7 @@ public class FrontendController {
 
 
     @GetMapping(value = "/register")
-    public String register(@ParamsNotNull(scenes = "insert") UserEntity user){
+    public String register(@Validated({UserEntity.InsetScene.class}) UserEntity user){
         return "----";
     }
 
