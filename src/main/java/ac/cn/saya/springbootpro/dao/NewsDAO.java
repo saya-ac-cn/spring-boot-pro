@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @Description:
  * BaseMapper 中封装了很多关于增删该查的方法，后期自动生成，直接调用接口中的相关方法即可完成相应的操作
  */
-@Repository("newsDAO")
+@Mapper
 public interface NewsDAO extends BaseMapper<NewsEntity> {
 
     public NewsEntity getOneNews(NewsEntity entity);

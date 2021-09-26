@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ac.cn.saya.springbootpro.dao.SceneDataDAO">
+
+    <insert id="batchInsertBuilding" parameterType="ac.cn.saya.springbootpro.entity.SceneDataEntity">
+        insert into scene_data(`campus_builder_id`,`name`,`user_id`,`properties`,`parent_scene_record_uuid`,
+        `default_camInfo`,`config_camInfo`,`data_type`,`belong_room`,`parent_cbid`,`children_scene_record_uuid`,`create_time`
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.campusBuilderId}, #{item.name}, #{item.userid}, #{item.properties}, #{item.parentSceneUUID},
+            #{item.defaultCamInfo}, #{item.configCamInfo},#{item.dataType},#{item.belongRoom},
+            #{item.parentCBID},#{item.childrenSceneUUID},now())
+        </foreach>
+    </insert>
+
+
+    <select id="quereByParenUuid" parameterType="java.util.List"
+            resultType="ac.cn.saya.springbootpro.entity.SceneDataEntity">
+        select
+        `uuid`,
+        `campus_builder_id` as campusBuilderId,
+        `name`,
+        `setting_name` as settingName,
+        `user_id` as userid,
+        `properties`,
+        `parent_scene_record_uuid` as parentSceneUUID,
+        `default_camInfo` as defaultCamInfo,
+        `config_camInfo` as configCamInfo,
+        `data_type` as dataType,
+        `belong_room` as belongRoom,
+        `parent_cbid` as parentCBID,
+        `children_scene_record_uuid` as childrenSceneUUID,
+        `create_time` as createTime
+        from scene_data
+        where `parent_scene_record_uuid` in
+        <foreach collection="list" item="item" separator=",">
+            (#{item})
+        </foreach>
+    </select>
+
+    <select id="query" parameterType="ac.cn.saya.springbootpro.entity.SceneDataEntity"
+            resultType="ac.cn.saya.springbootpro.entity.SceneDataEntity">
+        select
+        `uuid`,
+        `campus_builder_id` as campusBuilderId,
+        `name`,
+        `setting_name` as settingName,
+        `user_id` as userid,
+        `properties`,
+        `parent_scene_record_uuid` as parentSceneUUID,
+        `default_camInfo` as defaultCamInfo,
+        `config_camInfo` as configCamInfo,
+        `data_type` as dataType,
+        `belong_room` as belongRoom,
+        `parent_cbid` as parentCBID,
+        `children_scene_record_uuid` as childrenSceneUUID,
+        `create_time` as createTime
+        from scene_data
+        <where>
+            <if test="null != uuid and 0 != uuid">
+                uuid = #{uuid}
+            </if>
+            <if test="null != campusBuilderId and 0 != campusBuilderId">
+                and `campus_builder_id` = #{campusBuilderId}
+            </if>
+            <if test="null != parentSceneUUID and 0 != parentSceneUUID">
+                and `parent_scene_record_uuid` = #{parentSceneUUID}
+            </if>
+            <if test="null != dataType and '' != dataType">
+                and `data_type` = #{dataType}
+            </if>
+            <if test="null != parentCBID">
+                and `parent_cbid` = #{parentCBID}
+            </if>
+            <if test="null != childrenSceneUUID and 0 != childrenSceneUUID">
+                and `children_scene_record_uuid` = #{childrenSceneUUID}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryWithoutDate" parameterType="ac.cn.saya.springbootpro.entity.SceneDataEntity"
+            resultType="ac.cn.saya.springbootpro.entity.SceneDataEntity">
+        select
+        `uuid`,
+        `campus_builder_id` as campusBuilderId,
+        `name`,
+        `setting_name` as settingName,
+        `user_id` as userid,
+        `properties`,
+        `parent_scene_record_uuid` as parentSceneUUID,
+        `default_camInfo` as defaultCamInfo,
+        `config_camInfo` as configCamInfo,
+        `data_type` as dataType,
+        `belong_room` as belongRoom,
+        `parent_cbid` as parentCBID,
+        `children_scene_record_uuid` as childrenSceneUUID
+        from scene_data
+        <where>
+            <if test="null != uuid and 0 != uuid">
+                uuid = #{uuid}
+            </if>
+            <if test="null != campusBuilderId and 0 != campusBuilderId">
+                and `campus_builder_id` = #{campusBuilderId}
+            </if>
+            <if test="null != parentSceneUUID and 0 != parentSceneUUID">
+                and `parent_scene_record_uuid` = #{parentSceneUUID}
+            </if>
+            <if test="null != dataType and '' != dataType">
+                and `data_type` = #{dataType}
+            </if>
+            <if test="null != parentCBID">
+                and `parent_cbid` = #{parentCBID}
+            </if>
+            <if test="null != childrenSceneUUID and 0 != childrenSceneUUID">
+                and `children_scene_record_uuid` = #{childrenSceneUUID}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOneByUuid" parameterType="java.lang.Long" resultType="ac.cn.saya.springbootpro.entity.SceneDataEntity">
+        select `uuid`,
+               `campus_builder_id`          as campusBuilderId,
+               `name`,
+               `setting_name`               as settingName,
+               `user_id`                    as userid,
+               `properties`,
+               `parent_scene_record_uuid`   as parentSceneUUID,
+               `default_camInfo`            as defaultCamInfo,
+               `config_camInfo`             as configCamInfo,
+               `data_type`                  as dataType,
+               `belong_room`                as belongRoom,
+               `parent_cbid`                as parentCBID,
+               `children_scene_record_uuid` as childrenSceneUUID,
+               `create_time`                as createTime
+        from scene_data
+        where uuid = #{uuid}
+    </select>
+
+    <delete id="delete" parameterType="ac.cn.saya.springbootpro.entity.SceneDataEntity">
+        delete
+        from scene_data
+        where `parent_scene_record_uuid` = #{parentSceneUUID}
+          and `parent_cbid` = #{parentCBID}
+    </delete>
+
+    <delete id="deleteByUuid" parameterType="java.lang.Long">
+        delete
+        from scene_data
+        where `uuid` = #{uuid}
+    </delete>
+
+    <delete id="deleteByParentSceneUUID" parameterType="java.lang.Long">
+        delete
+        from scene_data
+        where parent_scene_record_uuid = #{parentSceneUUID}
+    </delete>
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ac.cn.saya.springbootpro.dao.SceneRecordDAO">
+
+    <insert id="insertScene" parameterType="ac.cn.saya.springbootpro.entity.SceneRecordEntity" useGeneratedKeys="true"
+            keyProperty="uuid">
+        insert into scene_record(`cb_scene_id`,
+                                 `scene_code`,
+                                 `project_id`,
+                                 `name`,
+                                 `default_name`,
+                                 `version`,
+                                 `default_camInfo`,
+                                 `config_camInfo`,
+                                 `status`,
+                                 `create_time`,
+                                 `map_info`)
+        values (#{cbSceneId}, #{sceneCode}, #{projectId}, #{name}, #{defaultName}, #{version}, #{defaultCamInfo},
+                #{configCamInfo}, #{status}, now(), #{mapInfo})
+    </insert>
+
+    <select id="queryLatestVersion" parameterType="java.lang.String"
+            resultType="ac.cn.saya.springbootpro.entity.SceneRecordEntity">
+        select `uuid`,
+               `cb_scene_id`      as cbSceneId,
+               `scene_code`       as sceneCode,
+               `project_id`       as projectId,
+               `name`,
+               `default_name`     as defaultName,
+               `version`,
+               `default_camInfo`  as defaultCamInfo,
+               `config_camInfo`   as configCamInfo,
+               `status`,
+               `extra_properties` as extraProperties,
+               `create_time`      as createTime,
+               `map_info`         as mapInfo
+        from scene_record
+        where scene_code = #{sceneCode}
+        order by version desc limit 1
+    </select>
+
+    <select id="query" parameterType="ac.cn.saya.springbootpro.entity.SceneRecordEntity"
+            resultType="ac.cn.saya.springbootpro.entity.SceneRecordEntity">
+        select
+        `uuid`,
+        `cb_scene_id` as cbSceneId,
+        `scene_code` as sceneCode,
+        `project_id` as projectId,
+        `name`,
+        `default_name` as defaultName,
+        `version`,
+        `default_camInfo` as defaultCamInfo,
+        `config_camInfo` as configCamInfo,
+        `status`,
+        `extra_properties` as extraProperties,
+        `create_time` as createTime,
+        `map_info`         as mapInfo,
+        `parent_uuid`       as parentUuid
+        from scene_record
+        <where>
+            <if test="null != uuid and 0 != uuid">
+                uuid = #{uuid}
+            </if>
+            <if test="null != sceneCode and '' != sceneCode">
+                and `scene_code` = #{sceneCode}
+            </if>
+            <if test="null != projectId and 0 != projectId">
+                and `project_id` = #{projectId}
+            </if>
+            <if test="null != status and 0 != status">
+                and `status` = #{status}
+            </if>
+            <if test="null != parentUuid and 0 != parentUuid">
+                parent_uuid = #{parentUuid}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOneByUuid" parameterType="java.lang.Long" resultType="ac.cn.saya.springbootpro.entity.SceneRecordEntity">
+        select `uuid`,
+               `cb_scene_id`      as cbSceneId,
+               `scene_code`       as sceneCode,
+               `project_id`       as projectId,
+               `name`,
+               `default_name`     as defaultName,
+               `version`,
+               `default_camInfo`  as defaultCamInfo,
+               `config_camInfo`   as configCamInfo,
+               `status`,
+               `extra_properties` as extraProperties,
+               `create_time`      as createTime,
+               `map_info`         as mapInfo,
+               `parent_uuid`       as parentUuid
+        from scene_record
+        where uuid = #{uuid} limit 1
+    </select>
+
+    <select id="queryOneByCode" parameterType="java.lang.String" resultType="ac.cn.saya.springbootpro.entity.SceneRecordEntity">
+        select `uuid`,
+               `cb_scene_id`      as cbSceneId,
+               `scene_code`       as sceneCode,
+               `project_id`       as projectId,
+               `name`,
+               `default_name`     as defaultName,
+               `version`,
+               `default_camInfo`  as defaultCamInfo,
+               `config_camInfo`   as configCamInfo,
+               `status`,
+               `extra_properties` as extraProperties,
+               `create_time`      as createTime,
+               `map_info`         as mapInfo
+        from scene_record
+        where scene_code = #{sceneCode} limit 1
+    </select>
+
+    <delete id="deleteByUuid" parameterType="java.lang.Long">
+        delete
+        from scene_record
+        where uuid = #{uuid}
+    </delete>
+
+    <update id="resetVersion" parameterType="java.lang.String">
+        update scene_record
+        set `status` = 2
+        where `scene_code` = #{sceneCode}
+    </update>
+
+    <update id="switchVersion" parameterType="java.lang.Long">
+        update scene_record
+        set `status` = 1
+        where `uuid` = #{uuid}
+    </update>
+
+    <select id="queryActiveVersion" parameterType="java.lang.String"
+            resultType="ac.cn.saya.springbootpro.entity.SceneRecordEntity">
+        select `uuid`,
+               `cb_scene_id`      as cbSceneId,
+               `scene_code`       as sceneCode,
+               `project_id`       as projectId,
+               `name`,
+               `default_name`     as defaultName,
+               `version`,
+               `default_camInfo`  as defaultCamInfo,
+               `config_camInfo`   as configCamInfo,
+               `status`,
+               `extra_properties` as extraProperties,
+               `create_time`      as createTime,
+               `map_info`         as mapInfo
+        from scene_record
+        where `scene_code` = #{sceneCode}
+          and `status` = 1
+    </select>
+
+</mapper>
