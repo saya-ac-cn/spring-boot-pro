@@ -34,6 +34,9 @@ public class AsyncController {
     @Autowired
     private Executor taskExecutor2;
 
+    @Autowired
+    private Executor requestExecutor;
+
     @GetMapping("task1")
     public String doTaskOne() throws Exception {
         long start = System.currentTimeMillis();
@@ -87,6 +90,22 @@ public class AsyncController {
             System.out.println("任务全部完成，总耗时：" + (end - start) + "毫秒");
 
         }).start();
+        return "执行完毕";
+    }
+
+    @GetMapping("task4")
+    public String doTaskFour() {
+        requestExecutor.execute(()->{
+            long start = System.currentTimeMillis();
+            try {
+                List<String> task = Arrays.asList("1", "2", "3");
+                task.stream().map(e -> CompletableFuture.runAsync(() -> asyncTaskService.doTaskThree(e), taskExecutor2)).collect(Collectors.toList()).stream().map(CompletableFuture::join).collect(Collectors.toList());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            long end = System.currentTimeMillis();
+            System.out.println("任务全部完成，总耗时：" + (end - start) + "毫秒");
+        });
         return "执行完毕";
     }
 
