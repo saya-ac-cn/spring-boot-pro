@@ -1,3 +1,5 @@
+server:
+  port: 8000
 spring:
   mvc:
     view:
@@ -6,9 +8,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://********?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: ******
-    password: ******
+    url: jdbc:mysql://1.15.81.148/test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: saya
+    password: shmily520
     hikari:
       auto-commit: true
       connection-test-query: SELECT 1
@@ -18,6 +20,9 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       pool-name: DatebookHikariCP
+  redis:
+    host: 127.0.0.1
+    database: 0
 mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
   # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
@@ -32,6 +37,7 @@ mybatis-plus:
       id-type: auto
       # 表名是否使用下划线间隔，默认：是
       table-underline: true
-  configuration:
+  # 在spring的配置文件指定了mybatis的配置文件 就不能在spring的配置里面写入mybatis的配置，所以报错
+  #configuration:
     # 驼峰转下划线
-    map-underscore-to-camel-case: true
+    #map-underscore-to-camel-case: true
