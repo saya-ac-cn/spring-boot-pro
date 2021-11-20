@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
 /**
  * @Title: ValidatorConfig
  * @ProjectName spring-boot-pro
@@ -24,12 +25,11 @@ public class ValidatorConfig {
 
     @Bean
     public Validator validator() {
-        ValidatorFactory validatorFactory = Validation.byProvider( HibernateValidator.class )
+        ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class )
                 .configure()
                 .failFast( true )
                 .buildValidatorFactory();
         Validator validator = validatorFactory.getValidator();
-
         return validator;
     }
 
