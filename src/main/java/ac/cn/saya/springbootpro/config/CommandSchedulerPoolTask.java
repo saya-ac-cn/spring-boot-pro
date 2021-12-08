@@ -11,11 +11,13 @@ import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 /**
+ * 定时任务
  * @Title: CommandSchedulerPoolTask
  * @ProjectName spring-boot-pro
  * @Author saya
  * @Date: 2021/12/4 17:26
  * @Description: TODO
+ * https://blog.csdn.net/szzssz/article/details/81202363
  */
 @Configuration
 public class CommandSchedulerPoolTask {

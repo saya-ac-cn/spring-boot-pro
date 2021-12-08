@@ -109,4 +109,19 @@ public class AsyncController {
         return "执行完毕";
     }
 
+    @GetMapping("task5")
+    public String doTaskFive() {
+        requestExecutor.execute(()->{
+            long start = System.currentTimeMillis();
+            try {
+                CompletableFuture.runAsync(()->asyncTaskService.addNews()).join();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            long end = System.currentTimeMillis();
+            System.out.println("任务全部完成，总耗时：" + (end - start) + "毫秒");
+        });
+        return "执行完毕";
+    }
+
 }

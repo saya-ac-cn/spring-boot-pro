@@ -19,4 +19,6 @@ public interface AsyncTaskService {
     public CompletableFuture<String> doTaskTwo(String taskNo) throws Exception;
 
     public String doTaskThree(String taskNo);
+
+    public String addNews();
 }
